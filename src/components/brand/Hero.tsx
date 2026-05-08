@@ -12,7 +12,7 @@ const Hero = () => {
   const imgY = useTransform(scrollYProgress, [0, 1], [0, isNarrow ? -36 : -100]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-40 sm:pt-44 lg:pt-48">
       {/* Animated background blobs */}
       <div className="blob bg-primary/40 w-[500px] h-[500px] -top-32 -left-32 animate-float" />
       <div className="blob bg-accent/30 w-[600px] h-[600px] top-40 -right-40 animate-float-slow" />

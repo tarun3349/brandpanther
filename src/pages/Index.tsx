@@ -10,7 +10,7 @@ import CTA from "@/components/brand/CTA";
 import Contact from "@/components/brand/Contact";
 import Footer from "@/components/brand/Footer";
 import ScrollProgress from "@/components/brand/ScrollProgress";
-import WhatsAppButton from "@/components/brand/WhatsAppButton";
+import FloatingContactButtons from "@/components/brand/FloatingContactButtons";
 import { useEffect } from "react";
 
 const Index = () => {
@@ -37,7 +37,7 @@ const Index = () => {
         <CTA />
         <Contact />
         <Footer />
-        <WhatsAppButton />
+        <FloatingContactButtons />
       </div>
     </main>
   );

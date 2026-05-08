@@ -1,29 +1,27 @@
-import { Instagram, Linkedin, Twitter, Facebook } from "lucide-react";
+import { Instagram } from "lucide-react";
+import { INSTAGRAM_URL } from "@/lib/social";
 
 const Footer = () => {
-  const socials = [Instagram, Linkedin, Twitter, Facebook];
   return (
     <footer className="relative border-t border-border/60 pt-16 pb-8 px-6">
       <div className="mx-auto max-w-7xl grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-xl bg-gradient-primary grid place-items-center shadow-soft-glow">
-              <span className="font-display font-black">B</span>
-            </div>
-            <span className="font-display font-bold text-lg">
-              Brand <span className="text-gradient-primary">Panther</span>
-            </span>
+          <div className="font-display font-bold text-xl tracking-tight">
+            Brand <span className="text-gradient-primary">Panther</span>
           </div>
           <p className="mt-4 text-muted-foreground max-w-sm">
             A premium digital marketing studio engineering growth for ambitious brands.
           </p>
-          <div className="mt-6 flex gap-3">
-            {socials.map((Icon, i) => (
-              <a key={i} href="#"
-                 className="h-10 w-10 rounded-full glass grid place-items-center hover:bg-gradient-primary hover:scale-110 hover:shadow-soft-glow transition-all duration-300">
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
+          <div className="mt-6">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-grid h-10 w-10 place-items-center rounded-full glass transition-all duration-300 hover:scale-110 hover:bg-gradient-primary hover:shadow-soft-glow"
+              aria-label="Brand Panther on Instagram"
+            >
+              <Instagram className="h-4 w-4" />
+            </a>
           </div>
         </div>
 

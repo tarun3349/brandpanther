@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Search, Palette, PenTool, Target } from "lucide-react";
-import aboutImg from "@/assets/about-visual.jpg";
+import aboutImg from "@/assets/about-visual.png";
 
 const features = [
   { icon: Search, title: "Market Research", desc: "Decode your audience with data" },
@@ -19,9 +19,9 @@ const About = () => {
           viewport={{ once: true }} transition={{ duration: 0.8 }}
           className="relative">
           <div className="absolute -inset-6 bg-gradient-glow blur-3xl rounded-full" />
-          <img src={aboutImg} alt="Brand Panther process visualization"
-               loading="lazy" width={1280} height={1280}
-               className="relative rounded-3xl border border-border/50" />
+          <img src={aboutImg} alt="Abstract analytics dashboard with growth charts and neon purple interface elements"
+               loading="lazy" width={1024} height={1024}
+               className="relative w-full rounded-3xl border border-border/50 object-cover shadow-elegant" />
         </motion.div>
 
         <div>

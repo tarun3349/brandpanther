@@ -22,39 +22,65 @@ const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.6, 0.05, 0.1, 0.95] }}
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? "py-3" : "py-5"
+        scrolled ? "py-1.5" : "py-2"
       }`}
     >
-      <div className={`mx-auto max-w-7xl px-6 transition-all duration-500 ${scrolled ? "" : ""}`}>
-        <div className={`flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 ${
-          scrolled ? "glass-strong shadow-elegant" : "bg-transparent"
-        }`}>
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="relative h-9 w-9 rounded-xl bg-gradient-primary grid place-items-center shadow-soft-glow group-hover:shadow-glow transition-all">
-              <span className="font-display font-black text-lg">B</span>
-            </div>
-            <span className="font-display font-bold text-lg tracking-tight">
-              Brand <span className="text-gradient-primary">Panther</span>
-            </span>
+      <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-all duration-500 ${scrolled ? "" : ""}`}>
+        <div
+          className={`flex items-center justify-between gap-2 sm:gap-4 lg:gap-6 rounded-xl px-3 py-3.5 sm:px-4 sm:py-3.5 md:px-5 transition-all duration-500 ${
+            scrolled ? "glass-strong shadow-elegant" : "bg-transparent"
+          }`}
+        >
+          <a
+            href="#"
+            className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3 md:gap-4 md:max-w-none md:flex-none md:shrink-0 touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background group"
+            aria-label="Brand Panther home"
+          >
+            <img
+              src="/logo-mark.png"
+              alt=""
+              width={128}
+              height={128}
+              className="h-[4.25rem] w-[4.25rem] shrink-0 object-contain sm:h-20 sm:w-20 md:h-[5.25rem] md:w-[5.25rem] lg:h-24 lg:w-24 xl:h-[6.5rem] xl:w-[6.5rem] 2xl:h-28 2xl:w-28 group-hover:opacity-95 transition-opacity"
+            />
+            <img
+              src="/logo-wordmark.png"
+              alt="Brand Panther"
+              className="h-16 min-h-0 min-w-0 flex-1 object-contain object-left sm:h-[4.5rem] sm:flex-none md:h-20 lg:h-24 xl:h-[6.5rem] 2xl:h-28 max-w-[calc(100vw-10rem)] min-[400px]:max-w-[calc(100vw-11rem)] sm:max-w-[min(58vw,28rem)] md:max-w-[min(52vw,32rem)] lg:max-w-[42rem] xl:max-w-none group-hover:opacity-95 transition-opacity"
+            />
           </a>
 
-          <nav className="hidden md:flex items-center gap-8">
-            {links.map((l) => (
-              <a key={l.href} href={l.href}
-                 className="text-sm text-muted-foreground hover:text-foreground transition-colors relative group">
-                {l.label}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-primary group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
-          </nav>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3 md:gap-6 lg:gap-8">
+            <nav className="hidden items-center gap-5 md:flex lg:gap-8">
+              {links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="relative text-sm text-muted-foreground transition-colors hover:text-foreground group whitespace-nowrap"
+                >
+                  {l.label}
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-300 group-hover:w-full" />
+                </a>
+              ))}
+            </nav>
 
-          <a href="#contact" className="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold shadow-soft-glow hover:shadow-glow hover:scale-105 transition-all">
-            Let's Talk
-          </a>
+            <a
+              href="#contact"
+              className="hidden items-center rounded-full bg-gradient-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft-glow transition-all hover:scale-105 hover:shadow-glow md:inline-flex whitespace-nowrap"
+            >
+              Let's Talk
+            </a>
 
-          <button onClick={() => setOpen(!open)} className="md:hidden p-2">
-            {open ? <X /> : <Menu />}
-          </button>
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="flex size-11 shrink-0 items-center justify-center rounded-xl text-foreground transition-colors hover:bg-foreground/5 md:hidden"
+            >
+              {open ? <X className="size-6" /> : <Menu className="size-6" />}
+            </button>
+          </div>
         </div>
 
         {open && (
