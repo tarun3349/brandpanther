@@ -1,11 +1,14 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { upsertMeta } from "@/lib/seoDom";
 
 const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    upsertMeta("name", "robots", "noindex, nofollow");
+    document.title = "Page not found | Brand Panther";
   }, [location.pathname]);
 
   return (
