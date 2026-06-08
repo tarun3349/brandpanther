@@ -18,6 +18,7 @@ const Navbar = () => {
   const { scrollY } = useScroll();
   const { settings } = useAdminSettings();
   const isMobile = useIsMobile();
+  const logoGap = isMobile ? Math.min(settings.logoGap || 12, 16) : settings.logoGap || 12;
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
 
   // Prevent background scrolling when menu is open
@@ -50,9 +51,9 @@ const Navbar = () => {
         >
           <a
             href="#"
-            className="flex flex-none shrink-0 items-center touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background group"
+            className="group flex min-w-0 flex-1 items-center overflow-hidden touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:flex-none md:overflow-visible"
             aria-label={`${settings.companyName} home`}
-            style={{ gap: `${settings.logoGap || 12}px` }}
+            style={{ gap: `${logoGap}px` }}
           >
             <img
               src={settings.logoMarkUrl}
@@ -67,7 +68,7 @@ const Navbar = () => {
               alt={settings.companyName}
               width={512}
               height={512}
-              className="h-8 min-w-0 max-w-[calc(100vw-6.5rem)] shrink-0 object-contain object-left transition-opacity group-hover:opacity-95 min-[380px]:h-9 min-[380px]:max-w-[calc(100vw-7.5rem)] sm:h-10 sm:max-w-[min(50vw,28rem)] md:h-12 md:max-w-[26rem] lg:h-14 lg:max-w-[30rem] xl:h-16 xl:max-w-[34rem]"
+              className="h-8 min-w-0 max-w-[42vw] shrink object-contain object-left transition-opacity group-hover:opacity-95 min-[380px]:h-9 min-[380px]:max-w-[48vw] sm:h-10 sm:max-w-[min(50vw,28rem)] md:h-12 md:max-w-[26rem] md:shrink-0 lg:h-14 lg:max-w-[30rem] xl:h-16 xl:max-w-[34rem]"
               style={{ transform: `scale(${(isMobile ? settings.logoWordmarkSizeMobile : settings.logoWordmarkSize || settings.logoWordmarkSizeMobile || 100) / 100})`, transformOrigin: 'left' }}
             />
           </a>
@@ -105,7 +106,7 @@ const Navbar = () => {
               onClick={() => setOpen(!open)}
               aria-expanded={open}
               aria-label={open ? "Close menu" : "Open menu"}
-              className="flex size-12 sm:size-11 shrink-0 items-center justify-center rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground transition-all duration-300 md:hidden"
+              className="relative z-50 flex size-12 shrink-0 items-center justify-center rounded-xl border border-foreground/10 bg-background/80 text-foreground shadow-soft-glow backdrop-blur hover:bg-foreground/10 sm:size-11 md:hidden"
             >
               <motion.div
                 animate={{ rotate: open ? 90 : 0 }}

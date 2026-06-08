@@ -49,7 +49,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const savedSettings = localStorage.getItem("brandPantherAdminSettings");
     if (savedSettings) {
       try {
-        setSettings(JSON.parse(savedSettings));
+        setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) });
       } catch (error) {
         console.error("Failed to parse admin settings:", error);
       }
