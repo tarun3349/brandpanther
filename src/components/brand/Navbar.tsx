@@ -1,6 +1,7 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { useAdminSettings } from "@/context/AdminContext";
 
 const links = [
   { label: "About", href: "#about" },
@@ -14,17 +15,31 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
+  const { settings } = useAdminSettings();
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
 
+  // Prevent background scrolling when menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.6, 0.05, 0.1, 0.95] }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? "py-1.5" : "py-2"
-      }`}
-    >
+    <>
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: [0.6, 0.05, 0.1, 0.95] }}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+          scrolled ? "py-1.5" : "py-2"
+        }`}
+      >
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-all duration-500 ${scrolled ? "" : ""}`}>
         <div
           className={`flex items-center justify-between gap-2 sm:gap-4 lg:gap-6 rounded-xl px-3 py-3.5 sm:px-4 sm:py-3.5 md:px-5 transition-all duration-500 ${
@@ -33,24 +48,29 @@ const Navbar = () => {
         >
           <a
             href="#"
-            className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3 md:gap-4 md:max-w-none md:flex-none md:shrink-0 touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background group"
-            aria-label="Brand Panther home"
+            className="flex flex-none shrink-0 items-center touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background group"
+            aria-label={`${settings.companyName} home`}
+            style={{ gap: `${settings.logoGap || 12}px` }}
           >
             <img
-              src="/logo-mark.png"
+              src={settings.logoMarkUrl}
               alt=""
-              width={128}
-              height={128}
-              className="h-[4.25rem] w-[4.25rem] shrink-0 object-contain sm:h-20 sm:w-20 md:h-[5.25rem] md:w-[5.25rem] lg:h-24 lg:w-24 xl:h-[6.5rem] xl:w-[6.5rem] 2xl:h-28 2xl:w-28 group-hover:opacity-95 transition-opacity"
+              width={512}
+              height={512}
+              className="h-12 w-12 shrink-0 object-contain transition-opacity group-hover:opacity-95 min-[380px]:h-14 min-[380px]:w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 xl:h-28 xl:w-28"
+              style={{ transform: `scale(${(settings.logoSize || 100) / 100})`, transformOrigin: 'left' }}
             />
             <img
-              src="/logo-wordmark.png"
-              alt="Brand Panther"
-              className="h-16 min-h-0 min-w-0 flex-1 object-contain object-left sm:h-[4.5rem] sm:flex-none md:h-20 lg:h-24 xl:h-[6.5rem] 2xl:h-28 max-w-[calc(100vw-10rem)] min-[400px]:max-w-[calc(100vw-11rem)] sm:max-w-[min(58vw,28rem)] md:max-w-[min(52vw,32rem)] lg:max-w-[42rem] xl:max-w-none group-hover:opacity-95 transition-opacity"
+              src={settings.logoWordmarkUrl}
+              alt={settings.companyName}
+              width={512}
+              height={512}
+              className="h-8 min-w-0 max-w-[calc(100vw-6.5rem)] shrink-0 object-contain object-left transition-opacity group-hover:opacity-95 min-[380px]:h-9 min-[380px]:max-w-[calc(100vw-7.5rem)] sm:h-10 sm:max-w-[min(50vw,28rem)] md:h-12 md:max-w-[26rem] lg:h-14 lg:max-w-[30rem] xl:h-16 xl:max-w-[34rem]"
+              style={{ transform: `scale(${(settings.logoWordmarkSize || 100) / 100})`, transformOrigin: 'left' }}
             />
           </a>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3 md:gap-6 lg:gap-8">
+          <div className="flex flex-1 shrink-0 items-center justify-end gap-2 sm:gap-3 md:gap-6 lg:gap-8 md:flex-none">
             <nav className="hidden items-center gap-5 md:flex lg:gap-8">
               {links.map((l) => (
                 <a
@@ -62,6 +82,13 @@ const Navbar = () => {
                   <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
+              <a
+                href="/admin"
+                className="relative text-sm text-muted-foreground transition-colors hover:text-foreground group whitespace-nowrap"
+              >
+                Admin
+                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-300 group-hover:w-full" />
+              </a>
             </nav>
 
             <a
@@ -76,47 +103,95 @@ const Navbar = () => {
               onClick={() => setOpen(!open)}
               aria-expanded={open}
               aria-label={open ? "Close menu" : "Open menu"}
-              className="flex size-11 shrink-0 items-center justify-center rounded-xl text-foreground transition-colors hover:bg-foreground/5 md:hidden"
+              className="flex size-12 sm:size-11 shrink-0 items-center justify-center rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground transition-all duration-300 md:hidden"
             >
-              {open ? <X className="size-6" /> : <Menu className="size-6" />}
+              <motion.div
+                animate={{ rotate: open ? 90 : 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                {open ? <X className="size-7" /> : <Menu className="size-7" />}
+              </motion.div>
             </button>
           </div>
         </div>
-
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ type: "spring", stiffness: 380, damping: 28 }}
-            className="md:hidden mt-2 glass-strong rounded-2xl p-6 flex flex-col gap-4 origin-top"
-          >
-            {links.map((l, i) => (
-              <motion.a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.06, duration: 0.28 }}
-                className="text-muted-foreground hover:text-foreground py-1 touch-manipulation active:opacity-70"
-              >
-                {l.label}
-              </motion.a>
-            ))}
-            <motion.a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: links.length * 0.06 + 0.05, duration: 0.3 }}
-              className="text-center px-5 py-2.5 rounded-full bg-gradient-primary text-primary-foreground font-semibold touch-manipulation active:scale-[0.97] transition-transform"
-            >
-              Let's Talk
-            </motion.a>
-          </motion.div>
-        )}
       </div>
     </motion.header>
+
+    {/* Backdrop Overlay */}
+    {open && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={() => setOpen(false)}
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+        aria-hidden="true"
+      />
+    )}
+
+    {/* Full-Height Mobile Menu */}
+    {open && (
+      <motion.nav
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.4 }}
+        className="fixed top-0 right-0 z-40 h-screen w-full max-w-sm bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-xl border-l border-foreground/10 md:hidden pt-24 px-6 pb-8 overflow-y-auto"
+      >
+        <div className="flex flex-col gap-2 space-y-1">
+          {links.map((l, i) => (
+            <motion.a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.35 }}
+              className="group relative px-4 py-3.5 rounded-lg text-lg font-medium text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all duration-300 active:scale-95"
+            >
+              {l.label}
+              <span className="absolute inset-y-0 left-0 w-1 bg-gradient-primary rounded-r-lg scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
+            </motion.a>
+          ))}
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: links.length * 0.08, duration: 0.35 }}
+            className="my-2 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
+          />
+
+          <motion.a
+            href="/admin"
+            onClick={() => setOpen(false)}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: (links.length + 1) * 0.08, duration: 0.35 }}
+            className="group relative px-4 py-3.5 rounded-lg text-lg font-medium text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all duration-300 active:scale-95"
+          >
+            Admin Panel
+            <span className="absolute inset-y-0 left-0 w-1 bg-gradient-primary rounded-r-lg scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
+          </motion.a>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: (links.length + 2) * 0.08, duration: 0.4 }}
+          className="mt-8 pt-8 border-t border-foreground/10"
+        >
+          <a
+            href="#contact"
+            onClick={() => setOpen(false)}
+            className="block w-full text-center px-6 py-3.5 rounded-full bg-gradient-primary text-primary-foreground font-semibold shadow-soft-glow hover:shadow-glow transition-all duration-300 active:scale-95"
+          >
+            Let's Talk
+          </a>
+        </motion.div>
+      </motion.nav>
+    )}
+    </>
   );
 };
 

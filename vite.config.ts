@@ -5,8 +5,9 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Relative asset paths: works on GitHub Pages project URLs, subfolders, and opening dist/ locally.
-  base: "./",
+  // Base configuration for production (Namecheap hosting)
+  // Use "/" for root domain hosting
+  base: process.env.NODE_ENV === "production" ? "/" : "/",
   server: {
     host: "::",
     port: 8080,

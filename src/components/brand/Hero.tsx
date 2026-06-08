@@ -2,10 +2,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useRef } from "react";
 import { useBelowBreakpoint } from "@/hooks/useBelowBreakpoint";
+import { useAdminSettings } from "@/context/AdminContext";
 
 const Hero = () => {
   const ref = useRef<HTMLElement>(null);
   const isNarrow = useBelowBreakpoint();
+  const { settings } = useAdminSettings();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, isNarrow ? 70 : 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, isNarrow ? 0.45 : 0]);
@@ -41,16 +43,21 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-5xl md:text-7xl lg:text-[5.5rem] font-black leading-[0.95] tracking-tighter">
-            <span className="text-gradient">Digital</span><br />
-            <span className="text-gradient">Marketing</span><br />
-            <span className="text-gradient-primary">Agency.</span>
+            {settings.heroHeadline.split("\n").map((line: string, idx: number) => (
+              <div key={idx}>
+                <span className={idx === settings.heroHeadline.split("\n").length - 1 ? "text-gradient-primary" : "text-gradient"}>
+                  {line}
+                </span>
+                {idx < settings.heroHeadline.split("\n").length - 1 && <br />}
+              </div>
+            ))}
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl">
-            From <span className="text-foreground font-semibold">first click</span> to <span className="text-foreground font-semibold">final sale</span> — we craft brands that hunt growth.
+            {settings.heroSubheading}
           </motion.p>
 
           <motion.div
@@ -64,7 +71,7 @@ const Hero = () => {
               className="group relative inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gradient-primary text-primary-foreground font-semibold shadow-soft-glow hover:shadow-glow transition-all duration-500 hover:scale-105 active:scale-[0.98] overflow-hidden touch-manipulation"
             >
               <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-              <span className="relative">Let's Grow Together</span>
+              <span className="relative">{settings.ctaButtonText}</span>
               <ArrowRight className="relative h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </motion.a>
             <motion.a

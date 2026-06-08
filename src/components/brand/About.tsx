@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Search, Palette, PenTool, Target } from "lucide-react";
 import aboutImg from "@/assets/about-visual.png";
+import { useAdminSettings } from "@/context/AdminContext";
 
 const features = [
   { icon: Search, title: "Market Research", desc: "Decode your audience with data" },
@@ -10,6 +11,7 @@ const features = [
 ];
 
 const About = () => {
+  const { settings } = useAdminSettings();
   return (
     <section id="about" className="section-padding relative overflow-hidden">
       <div className="blob bg-primary/20 w-[400px] h-[400px] top-20 -left-32" />
@@ -34,14 +36,13 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             className="mt-4 text-4xl md:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight">
-            We bring your <span className="text-gradient-primary">vision</span> to life.
+            {settings.aboutHeadline}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.7 }}
             className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            From conceptualization to implementation, Brand Panther partners with ambitious businesses
-            to engineer growth that compounds — strategy, story, systems.
+            {settings.aboutDescription}
           </motion.p>
 
           <div className="mt-10 grid sm:grid-cols-2 gap-4">
