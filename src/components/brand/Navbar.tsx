@@ -51,7 +51,7 @@ const Navbar = () => {
         >
           <a
             href="#"
-            className="group flex min-w-0 flex-1 items-center overflow-hidden touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:flex-none md:overflow-visible"
+            className="group flex min-w-0 flex-1 items-center overflow-visible touch-manipulation rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:flex-none"
             aria-label={`${settings.companyName} home`}
             style={{ gap: `${logoGap}px` }}
           >
@@ -73,7 +73,7 @@ const Navbar = () => {
             />
           </a>
 
-          <div className="flex flex-1 shrink-0 items-center justify-end gap-2 sm:gap-3 md:gap-6 lg:gap-8 md:flex-none">
+          <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:gap-6 lg:gap-8">
             <nav className="hidden items-center gap-5 md:flex lg:gap-8">
               {links.map((l) => (
                 <a
@@ -158,30 +158,12 @@ const Navbar = () => {
             </motion.a>
           ))}
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: links.length * 0.08, duration: 0.35 }}
-            className="my-2 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
-          />
-
-          <motion.a
-            href="/admin"
-            onClick={() => setOpen(false)}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: (links.length + 1) * 0.08, duration: 0.35 }}
-            className="group relative px-4 py-3.5 rounded-lg text-lg font-medium text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all duration-300 active:scale-95"
-          >
-            Admin Panel
-            <span className="absolute inset-y-0 left-0 w-1 bg-gradient-primary rounded-r-lg scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
-          </motion.a>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: (links.length + 2) * 0.08, duration: 0.4 }}
+          transition={{ delay: links.length * 0.08, duration: 0.4 }}
           className="mt-8 pt-8 border-t border-foreground/10"
         >
           <a

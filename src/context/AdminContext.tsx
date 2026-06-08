@@ -28,7 +28,7 @@ const DEFAULT_SETTINGS: AdminSettings = {
   logoSize: 100,
   logoSizeMobile: 100,
   logoWordmarkSize: 400,
-  logoWordmarkSizeMobile: 400,
+  logoWordmarkSizeMobile: 500,
   logoGap: 48,
   companyName: "Brand Panther",
   heroHeadline: "Digital\nMarketing\nAgency.",

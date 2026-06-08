@@ -25,7 +25,7 @@ const settingsSchema = z.object({
   logoSize: z.number().min(50, "Minimum size is 50%").max(200, "Maximum size is 200%"),
   logoSizeMobile: z.number().min(50, "Minimum size is 50%").max(200, "Maximum size is 200%"),
   logoWordmarkSize: z.number().min(50, "Minimum size is 50%").max(400, "Maximum size is 400%"),
-  logoWordmarkSizeMobile: z.number().min(50, "Minimum size is 50%").max(400, "Maximum size is 400%"),
+  logoWordmarkSizeMobile: z.number().min(50, "Minimum size is 50%").max(500, "Maximum size is 500%"),
   logoGap: z.number().min(0, "Minimum gap is 0px").max(200, "Maximum gap is 200px"),
   companyName: z.string().min(1, "Company name is required").max(100),
   heroHeadline: z.string().min(1, "Hero headline is required").max(500),
@@ -140,7 +140,7 @@ const AdminPage = () => {
                         <FormControl>
                           <Slider
                             min={50}
-                            max={400}
+                            max={500}
                             step={5}
                             value={[Number(field.value)]}
                             onValueChange={(value) => field.onChange(value[0])}
@@ -169,7 +169,7 @@ const AdminPage = () => {
                             className="w-full"
                           />
                         </FormControl>
-                        <FormDescription>Mobile wordmark scale from 50% to 400% (default: 400%)</FormDescription>
+                        <FormDescription>Mobile wordmark scale from 50% to 500% (default: 500%)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
