@@ -147,7 +147,7 @@ const AdminPage = () => {
                             className="w-full"
                           />
                         </FormControl>
-                        <FormDescription>Desktop logo wordmark scale from 50% to 400% (default: 100%)</FormDescription>
+                        <FormDescription>Desktop logo wordmark scale from 50% to 400% (default: 400%)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -169,7 +169,7 @@ const AdminPage = () => {
                             className="w-full"
                           />
                         </FormControl>
-                        <FormDescription>Mobile wordmark scale from 50% to 400% (default: 100%)</FormDescription>
+                        <FormDescription>Mobile wordmark scale from 50% to 400% (default: 400%)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
