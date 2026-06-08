@@ -2,6 +2,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useAdminSettings } from "@/context/AdminContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const links = [
   { label: "About", href: "#about" },
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
   const { settings } = useAdminSettings();
+  const isMobile = useIsMobile();
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
 
   // Prevent background scrolling when menu is open
@@ -58,7 +60,7 @@ const Navbar = () => {
               width={512}
               height={512}
               className="h-12 w-12 shrink-0 object-contain transition-opacity group-hover:opacity-95 min-[380px]:h-14 min-[380px]:w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 xl:h-28 xl:w-28"
-              style={{ transform: `scale(${(settings.logoSize || 100) / 100})`, transformOrigin: 'left' }}
+              style={{ transform: `scale(${(isMobile ? settings.logoSizeMobile : settings.logoSize || settings.logoSizeMobile || 100) / 100})`, transformOrigin: 'left' }}
             />
             <img
               src={settings.logoWordmarkUrl}
@@ -66,7 +68,7 @@ const Navbar = () => {
               width={512}
               height={512}
               className="h-8 min-w-0 max-w-[calc(100vw-6.5rem)] shrink-0 object-contain object-left transition-opacity group-hover:opacity-95 min-[380px]:h-9 min-[380px]:max-w-[calc(100vw-7.5rem)] sm:h-10 sm:max-w-[min(50vw,28rem)] md:h-12 md:max-w-[26rem] lg:h-14 lg:max-w-[30rem] xl:h-16 xl:max-w-[34rem]"
-              style={{ transform: `scale(${(settings.logoWordmarkSize || 100) / 100})`, transformOrigin: 'left' }}
+              style={{ transform: `scale(${(isMobile ? settings.logoWordmarkSizeMobile : settings.logoWordmarkSize || settings.logoWordmarkSizeMobile || 100) / 100})`, transformOrigin: 'left' }}
             />
           </a>
 

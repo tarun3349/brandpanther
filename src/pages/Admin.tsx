@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,7 +23,9 @@ const settingsSchema = z.object({
   logoMarkUrl: z.string().optional(),
   logoWordmarkUrl: z.string().optional(),
   logoSize: z.number().min(50, "Minimum size is 50%").max(200, "Maximum size is 200%"),
+  logoSizeMobile: z.number().min(50, "Minimum size is 50%").max(200, "Maximum size is 200%"),
   logoWordmarkSize: z.number().min(50, "Minimum size is 50%").max(400, "Maximum size is 400%"),
+  logoWordmarkSizeMobile: z.number().min(50, "Minimum size is 50%").max(400, "Maximum size is 400%"),
   logoGap: z.number().min(0, "Minimum gap is 0px").max(200, "Maximum gap is 200px"),
   companyName: z.string().min(1, "Company name is required").max(100),
   heroHeadline: z.string().min(1, "Hero headline is required").max(500),
@@ -41,7 +44,12 @@ const AdminPage = () => {
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsSchema),
     defaultValues: settings,
+    mode: "onTouched",
   });
+
+  useEffect(() => {
+    form.reset(settings);
+  }, [settings]);
 
   const onSubmit = (values: SettingsFormValues) => {
     updateSettings(values);
@@ -53,7 +61,6 @@ const AdminPage = () => {
 
   const handleReset = () => {
     resetSettings();
-    form.reset(settings);
     toast({
       title: "Reset",
       description: "Settings have been reset to defaults.",
@@ -77,49 +84,97 @@ const AdminPage = () => {
                 <CardDescription>Adjust logo sizes</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="logoSize"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Logo Mark Size: {field.value}%</FormLabel>
-                      <FormControl>
-                        <Slider 
-                          min={50}
-                          max={200}
-                          step={5}
-                          value={[Number(field.value)]}
-                          onValueChange={(value) => field.onChange(value[0])}
-                          className="w-full"
-                        />
-                      </FormControl>
-                      <FormDescription>Adjust logo mark (icon) scale from 50% to 200% (default: 100%)</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="logoSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Desktop Logo Mark Size: {field.value}%</FormLabel>
+                        <FormControl>
+                          <Slider
+                            min={50}
+                            max={200}
+                            step={5}
+                            value={[Number(field.value)]}
+                            onValueChange={(value) => field.onChange(value[0])}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormDescription>Desktop logo mark scale from 50% to 200% (default: 100%)</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="logoWordmarkSize"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Logo Wordmark Size: {field.value}%</FormLabel>
-                      <FormControl>
-                        <Slider 
-                          min={50}
-                          max={400}
-                          step={5}
-                          value={[Number(field.value)]}
-                          onValueChange={(value) => field.onChange(value[0])}
-                          className="w-full"
-                        />
-                      </FormControl>
-                      <FormDescription>Adjust logo wordmark (text) scale from 50% to 400% (default: 100%)</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="logoSizeMobile"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mobile Logo Mark Size: {field.value}%</FormLabel>
+                        <FormControl>
+                          <Slider
+                            min={50}
+                            max={200}
+                            step={5}
+                            value={[Number(field.value)]}
+                            onValueChange={(value) => field.onChange(value[0])}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormDescription>Mobile logo mark scale from 50% to 200% (default: 100%)</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="logoWordmarkSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Desktop Logo Wordmark Size: {field.value}%</FormLabel>
+                        <FormControl>
+                          <Slider
+                            min={50}
+                            max={400}
+                            step={5}
+                            value={[Number(field.value)]}
+                            onValueChange={(value) => field.onChange(value[0])}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormDescription>Desktop logo wordmark scale from 50% to 400% (default: 100%)</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="logoWordmarkSizeMobile"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mobile Logo Wordmark Size: {field.value}%</FormLabel>
+                        <FormControl>
+                          <Slider
+                            min={50}
+                            max={400}
+                            step={5}
+                            value={[Number(field.value)]}
+                            onValueChange={(value) => field.onChange(value[0])}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormDescription>Mobile wordmark scale from 50% to 400% (default: 100%)</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <FormField
                   control={form.control}
@@ -128,7 +183,7 @@ const AdminPage = () => {
                     <FormItem>
                       <FormLabel>Gap Between Logos: {field.value}px</FormLabel>
                       <FormControl>
-                        <Slider 
+                        <Slider
                           min={0}
                           max={200}
                           step={4}
@@ -146,26 +201,55 @@ const AdminPage = () => {
                 {/* Logo Preview */}
                 <div className="mt-8 space-y-4">
                   <h3 className="font-semibold text-lg">Logo Preview</h3>
-                  <p className="text-sm text-muted-foreground">See how your logos look at the current sizes</p>
-                  <div className="flex items-stretch justify-center rounded-lg border border-border bg-muted/50 p-12" style={{ gap: `${form.watch("logoGap")}px` }}>
-                    <div className="flex flex-col items-center justify-center gap-4 flex-1">
-                      <p className="text-xs text-muted-foreground">Logo Mark</p>
-                      <img
-                        src={form.watch("logoMarkUrl")}
-                        alt="Logo mark preview"
-                        className="h-24 w-24 object-contain"
-                        style={{ transform: `scale(${form.watch("logoSize") / 100})`, transformOrigin: 'center' }}
-                      />
+                  <p className="text-sm text-muted-foreground">See how your logo sizes appear on desktop and mobile</p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-xl border border-border bg-muted/50 p-6">
+                      <h4 className="mb-4 text-sm font-semibold">Desktop Preview</h4>
+                      <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-border bg-background/80 p-6" style={{ gap: `${form.watch("logoGap")}px` }}>
+                        <div className="flex flex-col items-center justify-center gap-3">
+                          <p className="text-xs text-muted-foreground">Logo Mark</p>
+                          <img
+                            src={form.watch("logoMarkUrl")}
+                            alt="Logo mark preview"
+                            className="h-24 w-24 object-contain"
+                            style={{ transform: `scale(${form.watch("logoSize") / 100})`, transformOrigin: 'center' }}
+                          />
+                        </div>
+                        <div className="h-24 w-px bg-border" />
+                        <div className="flex flex-col items-center justify-center gap-3">
+                          <p className="text-xs text-muted-foreground">Logo Wordmark</p>
+                          <img
+                            src={form.watch("logoWordmarkUrl")}
+                            alt="Logo wordmark preview"
+                            className="h-12 max-w-xs object-contain"
+                            style={{ transform: `scale(${form.watch("logoWordmarkSize") / 100})`, transformOrigin: 'center' }}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="h-32 w-0.5 bg-border" />
-                    <div className="flex flex-col items-center justify-center gap-4 flex-1">
-                      <p className="text-xs text-muted-foreground">Logo Wordmark</p>
-                      <img
-                        src={form.watch("logoWordmarkUrl")}
-                        alt="Logo wordmark preview"
-                        className="h-12 max-w-xs object-contain"
-                        style={{ transform: `scale(${form.watch("logoWordmarkSize") / 100})`, transformOrigin: 'center' }}
-                      />
+                    <div className="rounded-xl border border-border bg-muted/50 p-6">
+                      <h4 className="mb-4 text-sm font-semibold">Mobile Preview</h4>
+                      <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-border bg-background/80 p-6" style={{ gap: `${form.watch("logoGap")}px` }}>
+                        <div className="flex flex-col items-center justify-center gap-3">
+                          <p className="text-xs text-muted-foreground">Logo Mark</p>
+                          <img
+                            src={form.watch("logoMarkUrl")}
+                            alt="Logo mark preview"
+                            className="h-20 w-20 object-contain"
+                            style={{ transform: `scale(${form.watch("logoSizeMobile") / 100})`, transformOrigin: 'center' }}
+                          />
+                        </div>
+                        <div className="h-24 w-px bg-border" />
+                        <div className="flex flex-col items-center justify-center gap-3">
+                          <p className="text-xs text-muted-foreground">Logo Wordmark</p>
+                          <img
+                            src={form.watch("logoWordmarkUrl")}
+                            alt="Logo wordmark preview"
+                            className="h-10 max-w-xs object-contain"
+                            style={{ transform: `scale(${form.watch("logoWordmarkSizeMobile") / 100})`, transformOrigin: 'center' }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -289,7 +373,7 @@ const AdminPage = () => {
             </Card>
 
             {/* Action Buttons */}
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Button type="submit" size="lg" className="flex-1">
                 Save Changes
               </Button>

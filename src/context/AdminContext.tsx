@@ -4,7 +4,9 @@ export interface AdminSettings {
   logoMarkUrl: string;
   logoWordmarkUrl: string;
   logoSize: number;
+  logoSizeMobile: number;
   logoWordmarkSize: number;
+  logoWordmarkSizeMobile: number;
   logoGap: number;
   companyName: string;
   heroHeadline: string;
@@ -24,7 +26,9 @@ const DEFAULT_SETTINGS: AdminSettings = {
   logoMarkUrl: "/logo-mark.png",
   logoWordmarkUrl: "/logo-wordmark.png",
   logoSize: 100,
+  logoSizeMobile: 100,
   logoWordmarkSize: 100,
+  logoWordmarkSizeMobile: 100,
   logoGap: 48,
   companyName: "Brand Panther",
   heroHeadline: "Digital\nMarketing\nAgency.",
